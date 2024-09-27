@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HTTP in PHP Basics</title>
+    </head>
+    <body>
+        <h1 id="http-in-php-basics">HTTP in PHP Basics</h1>
+        <h2 id="http">HTTP</h2>
+        <p>
+            HTTP is a protocol for transferring Hypertext Media over the internet. Clients and servers set Requests and
+            Responses back and forth.
+        </p>
+        <p>Requests and Responses consist of Headers and Body content.</p>
+        <p>When requesting,</p>
+        <ul>
+            <li>Headers are the main source of the request.</li>
+            <li>Many types of request methods omit the body.</li>
+            <li>The body is used in requests to send form data or other data to the server.</li>
+        </ul>
+        <p>When responding.</p>
+        <ul>
+            <li>Headers can only be sent <em>before</em> the body.</li>
+            <li>Headers cannot be sent <em>after</em> or <em>in between</em> body content.</li>
+            <li>Once headers are sent, everything after that is considered body content by the browser.</li>
+            <li>
+                Body content consists of any data that the client should receive. This can be an
+                <code>HTML</code> page&#39;s contents, the data in an image file, bytes from a binary file, etc.
+            </li>
+        </ul>
+        <p>
+            Note: Headers are not the same as an HTML <code>&lt;head&gt;</code> tag, although by using a
+            <code>&lt;meta&gt;</code> tag with an <code>http-equiv</code> attribute inside of a
+            <code>&lt;head&gt;</code> tag you can send the equivalent of a similarly-named HTTP header.
+        </p>
+        <h3 id="_-how-will-i-know-_"><em>&quot;How will I know?&quot;</em></h3>
+        <ul>
+            <li>HTTP considers anything after 2 carriage returns to be content.</li>
+        </ul>
+        <h3 id="requests-">Requests:</h3>
+        <blockquote>
+            <p>&quot;Here&#39;s what we want.&quot;</p>
+        </blockquote>
+        <p>The browser ===&gt; Sends a request ===&gt; To the server</p>
+        <h4 id="example-request">Example Request</h4>
+        <pre><code class="lang-http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/hello.htm</span> HTTP/1.1
+<span class="hljs-attribute">User-Agent</span>: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)
+<span class="hljs-attribute">Host</span>: www.exmaple.com
+<span class="hljs-attribute">Accept-Language</span>: en-us
+</code></pre>
+        <ul>
+            <li><code>GET</code> is the request method.</li>
+            <li><code>/hello.htm</code> is the requested URI.</li>
+            <li><code>HTTP/1.1</code> is the version of <code>HTTP</code> this request is using</li>
+            <li><code>User-Agent</code> is the type of browser being used.</li>
+            <li><code>Host</code> is the webserver host name.</li>
+            <li>
+                <code>Accept-Language</code> tells the server which language the server should respond in, if it can.
+            </li>
+        </ul>
+        <h3 id="responses-">Responses:</h3>
+        <blockquote>
+            <p><em>&quot;Here&#39;s what we&#39;ve got.&quot;</em></p>
+        </blockquote>
+        <p>The server ===&gt; Sends a response ===&gt; To the browser</p>
+        <h4 id="example-response">Example Response</h4>
+        <pre><code class="lang-http">HTTP/1.1 <span class="hljs-number">200</span> OK
+<span class="hljs-attribute">Content-Type</span>: text/html
+<span class="hljs-attribute">Set-Cookie</span>: yummy_treats=brownie
+
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Hello, World!<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span>
+</code></pre>
+        <ul>
+            <li><code>HTTP/1.1</code> again is the verion of <code>HTTP</code> this response is using.</li>
+            <li><code>Content-Type</code> tells the browser what kind of document is being sent.</li>
+            <li>
+                <code>Set-Cookie</code> is setting a cookie named <code>yummy_treats</code> with a value of
+                <code>brownie</code>
+            </li>
+        </ul>
+        <h4 id="here-s-the-problem">Here&#39;s the problem</h4>
+        <pre><code class="lang-http">HTTP/2.0 200 OK
+Content-Type: text/html
+<span class="hljs-keyword">Set</span>-Cookie: yummy_treats=cookie 👈🏼<span class="hljs-number">1</span>️⃣ These <span class="hljs-number">2</span> <span class="hljs-keyword">new</span> <span class="hljs-keyword">lines</span> <span class="hljs-keyword">end</span> headers.
+                                  <span class="hljs-number">2</span>️⃣
+&lt;html&gt;                          👈🏼 This <span class="hljs-keyword">is</span> <span class="hljs-keyword">where</span> the <span class="hljs-keyword">content</span> starts.
+&lt;<span class="hljs-keyword">body</span>&gt;
+&lt;h1&gt;Hello, World!&lt;/h1&gt;
+&lt;/<span class="hljs-keyword">body</span>&gt;
+&lt;/html&gt;
+</code></pre>
+        <h2 id="php">PHP</h2>
+        <ul>
+            <li>Any content PHP encounters will tell it we are done sending headers.</li>
+            <li>PHP considers any HTML outside of PHP tags or any print/echo statements to be content.</li>
+            <li>2 new lines will be sent into the stream to indicate headers are done.</li>
+            <li>Any attempt to set headers after that will result in a warning from PHP.</li>
+        </ul>
+    </body>
+</html>
