@@ -19,12 +19,12 @@ $person->setCookie();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broken Page</title>
+    <title>Fixed Page</title>
 </head>
 
 <body>
 
-    <h1>Broken Page</h1>
+    <h1>Fixed Page</h1>
     <p>I'm a PHP file that includes other files which attempt to start the session or send cookies _before_ headers have been sent.</p>
     <p>I output this HTML and some PHP.</p>
     <p>This is the HTML.</p>
