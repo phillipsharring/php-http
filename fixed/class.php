@@ -8,11 +8,11 @@ class Person
 {
     public function __construct(public $greeting = 'Hi')
     {
-        echo '<p>I\'m a pure PHP that has a closing PHP bracket and new lines at the end of the file.</p>';
+        echo '<p>I\'m a pure PHP that <strike>has a closing PHP bracket and new lines at the end of the file</strike>.</p>';
     }
 
     public function setCookie()
     {
-        setCookie('yummy_treat', 'cookie');
+        setCookie('yummy_treat', 'fixed');
     }
 }

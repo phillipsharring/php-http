@@ -13,7 +13,7 @@ class Person
 
     public function setCookie()
     {
-        setCookie('yummy_treat', 'cookie');
+        setCookie('yummy_treat', 'broken');
     }
 }
 
